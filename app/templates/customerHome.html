@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Caramel: A Movie Database</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/customerHome.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="customerContainer">
+	{% if err!="Success!" %}
+  	<div class="alert alert-danger">
+    	<strong>ERROR!</strong> {{err}}
+  	</div>
+	{% endif %}
+
+	  <h2 class="tabHeader">caramel</h2>	
+	  <ul class="nav nav-tabs">
+	    <li class="active"><a href="#meTab">Me</a></li>
+	    <li><a href="#searchTab">Search</a></li>
+	  </ul>
+
+	  <div class="tab-content">
+	    <div id="meTab" class="tab-pane fade in active tabContent">
+	    <div class="jumbotron">
+	    <strong>Welcome, {{customer[1]}} {{customer[2]}}!</strong><br>
+	    <strong>ID: </strong><span>{{customer[0]}}</span><br>
+	    <strong>Email: </strong><span>{{customer[3]}}</span><br>
+	    <strong>Sex: </strong><span>{{customer[4]}}</span><br><br>
+	    <a class="btn btn-primary btn splashOptionsButton" href="/" role="button">Exit</a>
+	    </div>
+
+	 	    <div class="dbContainer">
+			<h2 class="dbHeader">Unrated Showings</h2>
+			  <table class="table table-hover dbTable">
+			    <thead>
+			    <tr>
+				{% for attribute in unratedAttends[0] %}
+					<td>{{attribute}}</td>
+				{% endfor %}
+				</tr>
+			    </thead>
+			    <tbody>
+			    {% for row in unratedAttends[1] %}
+			    <tr data-toggle="modal" data-target="#ratingModal" data-id={{loop.index0}}>
+			    	{% for data in row %}
+			    	<td>{{data}}</td>
+			    	{% endfor %}
+			    </tr>
+			    {% endfor %}
+			    </tbody>
+			  </table>
+			</div>
+
+			<div class="dbContainer">
+			<h2 class="dbHeader">Rated Showings</h2>
+			  <table class="table table-hover dbTable">
+			    <thead>
+			    <tr>
+				{% for attribute in ratedAttends[0] %}
+					<td>{{attribute}}</td>
+				{% endfor %}
+				</tr>
+			    </thead>
+			    <tbody>
+			    {% for row in ratedAttends[1] %}
+			    <tr>
+			    	{% for data in row %}
+			    	<td>{{data}}</td>
+			    	{% endfor %}
+			    </tr>
+			    {% endfor %}
+			    </tbody>
+			  </table>
+			</div>   	
+	    </div>
+
+	    <div id="searchTab" class="tab-pane fade tabContent"> 
+		    <form action="/search/{{customer[0]}}" method="post">
+				  <div class="form-group">
+				    <label>Genre</label>
+				    <select class="form-control" name="genre">
+				    <option>All</option>
+				    {% for genre in genres %}
+				    <option>{{genre}}</option>
+				    {% endfor %}
+				    </select>
+				  </div>
+				  <div class="form-group">
+				    <label>From</label>
+				    <select class="form-control" name="from">
+				    <option>All</option>
+				    {% for date in dates %}
+				    <option>{{date}}</option>
+				    {% endfor %}
+				    </select>
+				  </div>
+				  <div class="form-group">
+				    <label>To</label>
+				    <select class="form-control" name="to">
+				    <option>All</option>
+				    {% for date in dates %}
+				    <option>{{date}}</option>
+				    {% endfor %}
+				    </select>
+				  </div>
+					<div class="radio">
+					  <label><input type="radio" name="seat">Available Seating Only</label>
+					</div>
+				<div class="form-group">
+					<label >Movie</label>
+					<input type="text" class="form-control" name=movie>
+				</div>
+			  <button type="submit" class="btn btn-default">Submit</button>
+			</form>
+
+		    	<div class="dbContainer">
+				<h2 class="dbHeader">Showings Available</h2>
+				  <table class="table table-hover dbTable">
+				    <thead>
+				    <tr>
+					{% for attribute in showings[0] %}
+						<td>{{attribute}}</td>
+					{% endfor %}
+					</tr>
+				    </thead>
+				    <tbody>
+				    {% for row in showings[1] %}
+				    <tr data-toggle="modal" data-target="#attendModal" data-id={{loop.index0}}>
+				    	{% for data in row %}
+				    	<td>{{data}}</td>
+				    	{% endfor %}
+				    </tr>
+				    {% endfor %}
+				    </tbody>
+				  </table>
+				</div>
+
+				  <!-- Modal -->
+				  <div class="modal fade" id="attendModal" role="dialog">
+				    <div class="modal-dialog">
+				    
+				      <!-- Modal content-->
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title">Confirm Purchase:</h4>
+				        </div>
+				        <div class="modal-body">
+
+					    	<form class="form-horizontal" action="/purchase/{{customer[0]}}" method="post">
+								<div class="form-group">
+									<label class="control-label col-sm-2">ID:</label>
+									<div class="col-sm-10">   
+									<input type="text" class="form-control" name="id" id="id" readonly></div>
+								</div>				    	
+								<div class="form-group">
+									<label class="control-label col-sm-2">Show:</label>
+									<div class="col-sm-10">   
+									<input type="text" class="form-control" name="show" id="show" readonly></div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Room:</label>
+									<div class="col-sm-10">   
+									<input type="text" class="form-control" name="room" id="room" readonly></div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Price:</label>
+									<div class="col-sm-10">   
+									<input type="text" class="form-control" name="price" id="price" readonly></div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Movie: </label>
+									<div class="col-sm-10">   
+									<input type="text" class="form-control" name="movie" id="movie" readonly></div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Year:</label>
+									<div class="col-sm-10">   
+									<input type="text" class="form-control" name="year" id="year" readonly></div>
+								</div>
+								<br>				  
+								<button type="submit" class="btn btn-default">Buy</button>
+							</form>  
+
+				        </div>
+				      </div>
+				      
+				    </div>
+				  </div>
+	    </div>
+	  </div>
+	</div>
+
+
+			<div class="modal fade" id="ratingModal" role="dialog">
+			<div class="modal-dialog">
+			    
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Rate Showing:</h4>
+			        </div>
+			        <div class="modal-body">
+
+				    	<form class="form-horizontal" action="/rating/{{customer[0]}}" method="post">
+				    		
+				    		<div class="form-group">
+								<label class="control-label col-sm-2">ID:</label>
+								<div class="col-sm-10">   
+								<input type="text" class="form-control" name="id" id="ratingId" readonly></div>
+							</div>
+				    		<div class="form-group">
+								<label class="control-label col-sm-2">Time:</label>
+								<div class="col-sm-10">   
+								<input type="text" class="form-control" name="time" id="ratingTime" readonly></div>
+							</div>
+				    		<div class="form-group">
+								<label class="control-label col-sm-2">Price:</label>
+								<div class="col-sm-10">   
+								<input type="text" class="form-control" name="price" id="ratingPrice" readonly></div>
+							</div>
+				    		<div class="form-group">
+								<label class="control-label col-sm-2">Movie:</label>
+								<div class="col-sm-10">   
+								<input type="text" class="form-control" name="movie" id="ratingMovie" readonly></div>
+							</div>
+				    		<div class="form-group">
+								<label class="control-label col-sm-2">Release:</label>
+								<div class="col-sm-10">   
+								<input type="text" class="form-control" name="year" id="ratingYear" readonly></div>
+							</div>																					
+
+				    		<div class="form-group">
+							    <select class="form-control" name="rating">
+							    <option>None</option>
+							    <option>1</option>
+							    <option>2</option>
+							    <option>3</option>
+							    <option>4</option>
+							    <option>5</option>
+							    </select>
+						  	</div>			  
+							<button type="submit" class="btn btn-default">Rate</button>
+						</form>  
+
+			        </div>
+			      </div>  
+			</div>
+			</div>
+
+</body>
+</html>
+<script>
+$(document).ready(function(){
+    $(".nav-tabs a").click(function(){
+        $(this).tab('show');
+    });
+});
+$('#attendModal').on('show.bs.modal', function (event) {
+    var show = $(event.relatedTarget).find('td:nth-child(2)').text();
+    var room = $(event.relatedTarget).find('td:nth-child(3)').text();
+    var price = $(event.relatedTarget).find('td:nth-child(4)').text();
+    var movie = $(event.relatedTarget).find('td:nth-child(5)').text();
+    var year = $(event.relatedTarget).find('td:nth-child(6)').text();
+    var id = $(event.relatedTarget).find('td:nth-child(1)').text();
+    $(this).find('#show').val(show)
+    $(this).find('#room').val(room)
+    $(this).find('#price').val(price)
+    $(this).find('#movie').val(movie)
+    $(this).find('#year').val(year)
+    $(this).find('#id').val(id)
+});
+$('#ratingModal').on('show.bs.modal', function (event) {
+    var ratingId = $(event.relatedTarget).find('td:nth-child(1)').text();
+    var ratingTime = $(event.relatedTarget).find('td:nth-child(2)').text();
+    var ratingPrice = $(event.relatedTarget).find('td:nth-child(3)').text();
+    var ratingMovie = $(event.relatedTarget).find('td:nth-child(4)').text();
+    var ratingYear = $(event.relatedTarget).find('td:nth-child(5)').text();
+    $(this).find('#ratingId').val(ratingId)
+    $(this).find('#ratingTime').val(ratingTime)
+    $(this).find('#ratingPrice').val(ratingPrice)
+    $(this).find('#ratingMovie').val(ratingMovie)
+    $(this).find('#ratingYear').val(ratingYear)
+});
+</script>

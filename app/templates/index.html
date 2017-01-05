@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Caramel: A Movie Database</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="splashContainer">
+		<div class="splashBox">
+			<div class="splashTitle">
+				<h1>caramel</h1> 
+			</div>
+			<div class="splashOptionsContainer">
+				<div class="splashOptions">
+				<a class="btn btn-primary btn splashOptionsButton" href="/evil" role="button">I'm Feeling Evil</a>	
+					<a class="btn btn-primary btn splashOptionsButton" href="/staffHome" role="button">Use as Staff</a>				
+
+			<div class="btn-group customerDropdown">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Use as Customer <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    {% for customer in customers %}
+			    <li><a href="/customer/{{customer[0]}}">{{customer[1]}} {{customer[2]}}</a></li>
+			    {% endfor %}
+			  </ul>
+			</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

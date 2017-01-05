@@ -1,0 +1,44 @@
+{% extends "staffTable.html" %}
+{% block sideBar %}
+<div class="sideBar">
+{% if err!="Success!" %}
+  <div class="alert alert-danger">
+    <strong>ERROR!</strong> {{err}}
+  </div>
+{% endif %}
+  <h2 class="sideHeader">caramel</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#changeView">View</a></li>
+    <li><a href="/staffHome" role="button">Use Another Table</a><li>
+  </ul>
+
+  <div class="tab-content sideTab">
+    <div id="changeView" class="tab-pane fade in active">
+    	<form action="/view/{{table}}" method="post">
+			<div class="radio">
+			  <label><input type="radio" name="customer">Show Customers</label>
+			</div>
+			<div class="radio">
+			  <label><input type="radio" name="showing">Show Showings</label>
+			</div>
+			<div class="radio">
+			  <label><input type="radio" name="movie">Show Movies</label>
+			</div>
+			<div class="radio">
+			  <label><input type="radio" name="default">Default</label>
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".nav-tabs a").click(function(){
+        $(this).tab('show');
+    });
+});
+</script>
+
+{% endblock %}

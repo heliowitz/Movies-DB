@@ -1,0 +1,71 @@
+{% extends "staffTable.html" %}
+{% block sideBar %}
+<div class="sideBar">
+{% if err!="Success!" %}
+  <div class="alert alert-danger">
+    <strong>ERROR!</strong> {{err}}
+  </div>
+{% endif %}
+  <h2 class="sideHeader">caramel</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#addTab">Add</a></li>
+    <li><a href="#deleteTab">Delete</a></li>
+    <li><a href="#modifyTab">Modify</a></li>
+    <li><a href="/staffHome" role="button">Use Another Table</a><li>
+  </ul>
+
+  <div class="tab-content sideTab">
+    <div id="addTab" class="tab-pane fade in active">
+    	<form action="/insert/{{table}}" method="post">
+			{% for attribute in data[0] %}
+			<div class="form-group">
+				<label >{{attribute}}</label>
+				<input type="text" class="form-control" name={{attribute}}>
+			</div>
+			{% endfor %}
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+    </div>
+    <div id="deleteTab" class="tab-pane fade">
+    	<form action="/delete/{{table}}" method="post">
+			{% for attribute in data[0] %}
+			<div class="form-group">
+				<label >{{attribute}}</label>
+				<input type="text" class="form-control" name={{attribute}}>
+			</div>
+			{% endfor %}
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>      
+    </div>
+    <div id="modifyTab" class="tab-pane fade">
+    	<form action="/update/{{table}}" method="post">
+			<h4>Set</h4>
+			{% for attribute in data[0] %}
+			<div class="form-group">
+				<label>{{attribute}}</label>
+				<input type="text" class="form-control" name=s{{attribute}}>
+			</div>
+			{% endfor %}
+			<br>
+			<h4>Where</h4>
+			{% for attribute in data[0] %}
+			<div class="form-group">
+				<label>{{attribute}}</label>
+				<input type="text" class="form-control" name=w{{attribute}}>
+			</div>
+			{% endfor %}			
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>      
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".nav-tabs a").click(function(){
+        $(this).tab('show');
+    });
+});
+</script>
+
+{% endblock %}

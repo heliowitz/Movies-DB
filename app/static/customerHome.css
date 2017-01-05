@@ -1,0 +1,21 @@
+.customerContainer{
+	height:100vh;
+	width:100vw;
+}
+.tabHeader{
+	color: #C68E17;
+	margin:20px;
+	margin-bottom:20px;
+	border-width: 5px;
+	border-color: #C68E17;
+	border-bottom-style: solid;
+}
+.tabContent{
+	width: 800px;
+	margin:0 auto;
+	color: grey;
+	margin-top: 40px;
+}
+.jumbotron{
+	padding:40px;
+}

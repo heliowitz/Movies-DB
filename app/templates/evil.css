@@ -1,0 +1,42 @@
+.evilContainer{
+	height:100vh;
+	width:100vw;
+	display:flex;
+}
+.evilHeader{
+	height:100%;
+	width:400px;
+	min-width:400px;
+	float:left;
+	background-color: white;
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+.splashTitle{
+	color: #C68E17;
+	margin:20px;
+	margin-bottom:40px;
+	border-width: 5px;
+	border-color: #C68E17;
+	border-bottom-style: solid;
+}
+.evilDatabase{
+	height:100%;
+	left:400px;
+	flex: 1;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	color: grey;
+}
+.evilTable{
+	width:800px;
+}
+.evilLabel{
+	color: grey;
+}
+.evilForm{
+	margin:20px;
+}
+.tableColumn{
+	font-size: 20px;
+}

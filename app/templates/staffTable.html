@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Caramel: A Movie Database</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/staffTable.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="staffContainer">
+{% block sideBar %}{% endblock %}
+
+<div class="dbContainer">
+<div class="tableContainer">
+<h2 class="dbHeader">{{table}}</h2>
+  <table class="table table-hover dbTable">
+    <thead>
+    <tr>
+	{% for attribute in data[0] %}
+		<td class="tableColumn">{{attribute}}</td>
+	{% endfor %}
+	</tr>
+    </thead>
+    <tbody>
+    {% for row in data[1] %}
+    <tr>
+    	{% for data in row %}
+    	<td>{{data}}</td>
+    	{% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  </div>
+  </div>
+ 
+
+</body>
+</html>
